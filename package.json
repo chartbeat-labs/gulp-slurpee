@@ -6,7 +6,7 @@
   "author": "Harry Wolff <harry@chartbeat.com>",
   "contributors": [
     "Harry Wolff <harry@chartbeat.com>",
-    "Jem Young <jem@chartbeat.com>"
+    "Jem Young <jemuel.young@gmail.com>"
   ],
   "license": "MIT",
   "keywords": [
@@ -27,8 +27,8 @@
     "lint": "./node_modules/.bin/jshint ./index.js"
   },
   "dependencies": {
-    "gulp": "^3.8.10",
-    "yargs": "^1.3.3"
+    "gulp": "^3.8.11",
+    "yargs": "^3.7.1"
   },
   "devDependencies": {
     "jshint": "^2.6.3"

@@ -1,0 +1,36 @@
+{
+  "name": "gulp-slurpee",
+  "version": "1.0.0",
+  "description": "Run the same gulp task from multiple gulpfile's concurrently.",
+  "repository": "https://github.com/chartbeat-labs/gulp-slurpee.git",
+  "author": "Harry Wolff <harry@chartbeat.com>",
+  "contributors": [
+    "Harry Wolff <harry@chartbeat.com>",
+    "Jem Young <jem@chartbeat.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "gulpplugin",
+    "gulp",
+    "multiple",
+    "hub",
+    "runner",
+    "run"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "main": "index.js",
+  "bin": "./bin/index.js",
+  "scripts": {
+    "test": "npm run lint",
+    "lint": "./node_modules/.bin/jshint ./index.js"
+  },
+  "dependencies": {
+    "gulp": "^3.8.10",
+    "yargs": "^1.3.3"
+  },
+  "devDependencies": {
+    "jshint": "^2.6.3"
+  }
+}

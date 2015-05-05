@@ -1,6 +1,6 @@
 {
   "name": "gulp-slurpee",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Run the same gulp task from multiple gulpfile's concurrently.",
   "repository": "https://github.com/chartbeat-labs/gulp-slurpee.git",
   "author": "Harry Wolff <harry@chartbeat.com>",

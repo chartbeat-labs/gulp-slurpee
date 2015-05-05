@@ -65,6 +65,10 @@ gulp-slurpee app build
 
 ## Changelog
 
+### 1.1
+
+- Allow usage via arguments to API.
+
 ### 1.0
 
 - Initial release

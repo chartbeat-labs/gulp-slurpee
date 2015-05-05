@@ -152,7 +152,10 @@ function spawnTask(directory, task) {
 exports.run = function() {
   var task = '';
   var argDirectories;
-  var lastArgv = argv._.pop();
+  var runArguments = arguments.length ?
+    Array.prototype.slice.call(arguments) :
+    argv._;
+  var lastArgv = runArguments.pop();
 
   /**
    * Guess what our task is.
@@ -164,11 +167,11 @@ exports.run = function() {
   if (fs.existsSync(lastArgv)) {
     task = 'default';
     // Re-join full directory list
-    argDirectories = argv._.concat(lastArgv);
+    argDirectories = runArguments.concat(lastArgv);
   } else {
     task = lastArgv;
     // Ensure always array
-    argDirectories = [].concat(argv._);
+    argDirectories = [].concat(runArguments);
   }
 
   // Array of directories we will run our task in.

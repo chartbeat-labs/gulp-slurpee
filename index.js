@@ -5,6 +5,7 @@ var path = require('path');
 var fs = require('fs');
 var util = require('util');
 var argv = require('yargs').argv;
+var Promise = require('bluebird');
 
 /**
  * Looks up what gulp bin should be used.
@@ -134,15 +135,6 @@ function spawnTask(directory, task) {
   child.stdout.on('data', dataMsg);
   child.stderr.on('data', dataMsg);
 
-  child.on('exit', function(code) {
-    // If the child process exits abnormally then the code value will
-    // not be 0.
-    if (code !== 0) {
-      killAllTasks(directory);
-      process.exit(1);
-    }
-  });
-
   return child;
 }
 
@@ -184,7 +176,41 @@ exports.run = function() {
   });
   console.log('\n----------\n');
 
-  taskDirectories.forEach(function(dir) {
-    childProcs.push(spawnTask(dir, task));
+  // Return a promise that will be resolved when all the tasks complete
+  return new Promise(function(resolve, reject) {
+    if (!taskDirectories.length) {
+      resolve();
+      return;
+    }
+
+    var waitingForDirs = [].concat(taskDirectories);
+    var doneWithDir = function(dir) {
+      var index = waitingForDirs.indexOf(dir);
+      if (index > -1) {
+        waitingForDirs.splice(index, 1);
+      }
+      if (waitingForDirs.length === 0) {
+        // If all child processes have finished, we're done.
+        resolve();
+      }
+    };
+
+    taskDirectories.forEach(function(dir) {
+      var childProc = spawnTask(dir, task);
+      childProcs.push(childProc);
+
+      childProc.on('exit', function(code) {
+        if (code === 0) {
+          // 0 exit code means success
+          doneWithDir(dir);
+        } else {
+          // non-zero exit means failure
+          reject();
+
+          killAllTasks(dir);
+          process.exit(1);
+        }
+      });
+    });
   });
 };

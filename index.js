@@ -11,8 +11,8 @@ var Promise = require('bluebird');
  * Looks up what gulp bin should be used.
  * In order of priority:
  * 	1. Global gulp
- * 	2. Gulp local to where script is ran.
- * 	3. Our own gulp bin.
+ * 	2. Gulp module loaded via require.
+ * If no gulp module is found throws an error.
  */
 function getGulpBin() {
   var globalGulp = '/usr/local/bin/gulp';
@@ -21,19 +21,11 @@ function getGulpBin() {
     return globalGulp;
   }
 
-  var localGulpPath = 'node_modules/gulp/bin/gulp.js';
+  var localGulpModule = require.resolve('gulp');
 
-  var localGulp = path.join(process.cwd(), localGulpPath);
+  var localGulpBin = path.join(path.dirname(localGulpModule), 'bin/gulp.js');
 
-  if (fs.existsSync(localGulp)) {
-    return localGulp;
-  }
-
-  var selfGulp = path.join(__dirname, localGulpPath);
-
-  if (fs.existsSync(selfGulp)) {
-    return selfGulp;
-  }
+  return localGulpBin;
 }
 
 var TASK = {
